@@ -8,8 +8,8 @@ public class RescueGUI extends Application {
   @Override
   public void start(Stage primaryStage){
     Button btOK = new Button("Search");
-    Scene scene = new Scene(btOK, 200, 250);
-    primaryStage.setTitle("MyJavaFX");
+    Scene scene = new Scene(btOK, 750, 450);
+    primaryStage.setTitle("RescueGUI");
     primaryStage.setScene(scene);
     primaryStage.show();
   }
@@ -18,5 +18,3 @@ public class RescueGUI extends Application {
     Application.launch(args);
   }
 }
-
-// work2 test commit
