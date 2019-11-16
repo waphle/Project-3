@@ -12,9 +12,14 @@ public class RescueGUI extends Application {
   final int Scene_Width = 1000;
   final int Scene_Hight = 600;
   final int Side_Padding = 25;
+  
   final int Pane_H_Gap = 15;
   final int Pane_V_Gap = 15;
+  
   final int Button_Width = 100;
+  
+  final int TextField_Width = 800;
+  final int TextField_Height = 40;
   
   @Override
   public void start(Stage primaryStage) {
@@ -29,15 +34,16 @@ public class RescueGUI extends Application {
     StackPane btnPane = new StackPane();
     Button btnSearch = new Button("Search");
     btnSearch.setFont(Font.font("Arial", 18));
+    btnSearch.setPrefWidth(Button_Width);
     btnPane.getChildren().add(btnSearch);
-    btnPane.setPrefWidth(Button_Width);
     
     // Search text field
     TextField srchText = new TextField();
     srchText.setPrefColumnCount(1);
     srchText.setPromptText("Enter a key word to search in the ads");
-    srchText.setPrefWidth(Scene_Width - Pane_H_Gap - 2*Side_Padding - 1.5*Button_Width);
-    srchText.setPrefHeight(40);
+    srchText.setPrefWidth(TextField_Width);
+    srchText.setPrefHeight(TextField_Height);
+    srchText.setFont(Font.font("Arial", 16));
     
     // Place nodes in the outter pane
     outterPane.getChildren().addAll(srchText, btnPane);
@@ -48,6 +54,7 @@ public class RescueGUI extends Application {
     // Stage
     primaryStage.setTitle("Rescue");
     primaryStage.setScene(scene);
+    primaryStage.setResizable(false);
     primaryStage.show();
   }
 
