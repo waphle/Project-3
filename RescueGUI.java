@@ -14,9 +14,13 @@ public class RescueGUI extends Application {
       primaryStage.setTitle("RescueGUI");
       primaryStage.setWidth(750);
       primaryStage.setHeight(450);
+      primaryStage.setScene(scene);
+      primaryStage.show();
+      
       
       TextField textField = new TextField();
       textField.setPromptText("Search: ");
+      Scene scene2 = new Scene(textField, 200, 100);
       textField.setOnKeyReleased(keyEvent -> {
       // Code here
       });
