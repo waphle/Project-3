@@ -17,21 +17,40 @@ public class RescueGUI extends Application {
       primaryStage.setHeight(450);
       primaryStage.setScene(scene);
       primaryStage.show();
-
-      Stage stage = new Stage();
-      stage.setScene(scene);
-      stage.setTitle("Search: ");
+   }
+   
+   public void start(Scene primaryScene){
+      Scene scene = new Scene(new Group());  
       TextField textField = new TextField();
       textField.setPromptText("Search: ");
       Scene scene2 = new Scene(textField, 200, 100);
       textField.setOnKeyReleased(keyEvent -> {
       // Code here
       });
-         
-      stage.setScene(scene);
-      stage.show();
-      
    }
+   
+  public static void main(String[] args){
+    Application.launch(args);
+  }
+  
+}
+   
+//    // Do not delete
+//       Stage stage = new Stage();
+//       stage.setScene(scene);
+//       stage.setTitle("Search: ");
+//       TextField textField = new TextField();
+//       textField.setPromptText("Search: ");
+//       Scene scene2 = new Scene(textField, 200, 100);
+//       textField.setOnKeyReleased(keyEvent -> {
+//       // Code here
+//       });
+//          
+//       stage.setScene(scene);
+//       stage.show();
+//    }
+
+      
 
 //    // Do not delete
 //   @Override
@@ -43,9 +62,3 @@ public class RescueGUI extends Application {
 //     primaryStage.setScene(scene);
 //     primaryStage.show();
 //   }
-
-  public static void main(String[] args){
-    Application.launch(args);
-  }
-  
-}
