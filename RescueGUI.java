@@ -30,56 +30,12 @@ public class RescueGUI extends Application {
   
   // Search count data
   final String[] stateAbbNames = {
-      "AL",
-      "AK",
-      "AZ",
-      "AR",
-      "CA",
-      "CO",
-      "CT",
-      "DE",
-      "DC",
-      "FL",
-      "GA",
-      "HI",
-      "ID",
-      "IL",
-      "IN",
-      "IA",
-      "KS",
-      "KY",
-      "LA",
-      "ME",
-      "MD",
-      "MA",
-      "MI",
-      "MN",
-      "MS",
-      "MO",
-      "MT",
-      "NE",
-      "NV",
-      "NH",
-      "NJ",
-      "NM",
-      "NY",
-      "NC",
-      "ND",
-      "OH",
-      "OK",
-      "OR",
-      "PA",
-      "RI",
-      "SC",
-      "SD",
-      "TN",
-      "TX",
-      "UT",
-      "VT",
-      "VA",
-      "WA",
-      "WV",
-      "WI",
+  final String[] stateAbbNames = {
+      "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", 
+      "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME",
+      "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", 
+      "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
+      "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI",
       "WY" };
   final int Num_States = 51;
   int Counts[] = new int[Num_States];
@@ -130,10 +86,10 @@ public class RescueGUI extends Application {
     yAxis.setLabel("Match Count");
     
     XYChart.Series series = new XYChart.Series();
-//     for (int i = 0; i < Num_States; i++) {
-//        series.getData().add(new XYChart.Data(States[i], Counts[i]));
-//     }
-    State_Count_Map.forEach((k, v) -> { series.getData().add(new XYChart.Data(k, v)); });
+    for (int i = 0; i < Num_States; i++) {
+       series.getData().add(new XYChart.Data(States[i], Counts[i]));
+    }
+//     State_Count_Map.forEach((k, v) -> { series.getData().add(new XYChart.Data(k, v)); });
     barChart.getData().addAll(series);
 
     // Place nodes in the outter pane
