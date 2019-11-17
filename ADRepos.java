@@ -51,16 +51,19 @@ public class ADRepos {
          
          // Get text   
          delimPos = line.lastIndexOf("\""); // Get the position of the last '"' character in the description string
-         // The data file was not created perfectly sanitarily: some description text may not always end with '"' char.
+         // The data file was not created perfectly sanitary: some description text may not always end with '"' char.
          // In these defect cases, we need to handle the end position alternatively
-         if (delimPos == startPos) 
-         {
-            delimPos = line.length();
-         } 
-         String sText = line.substring(startPos, delimPos); // Note the last '"' char is exclusive
-         if (sText.charAt(0) == '\"')
-            sText = sText.substring(1); // Remove the first '"' char in the description string
-         byte[] text = sText.getBytes();
+         byte[] text;
+         String sText = "";
+         if (delimPos != -1) {   // If the description is not empty
+            if (delimPos == startPos) { // No '"' at the end of the description text
+               delimPos = line.length();
+            }
+            sText = line.substring(startPos, delimPos); // Note the last '"' char is exclusive
+            if (sText.charAt(0) == '\"')
+               sText = sText.substring(1); // Remove the first '"' char in the description string
+         }
+         text = sText.getBytes();
          ad.setText(text);
          
          // Get Empty

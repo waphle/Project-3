@@ -19,12 +19,15 @@ public class RescueGUI extends Application {
   int Counts[] = new int[Constants.NUMBER_OF_STATES];
   String States[] = new String[Constants.NUMBER_OF_STATES];
   public static HashMap<String, Integer> State_Count_Map = new HashMap<String, Integer>();
+  String dataFileName = "allDogDescriptions_simplified.csv";
   
   @Override
   public void start(Stage primaryStage) throws Exception {
   
     // Load the ad file
-    adDatabase.loadADs("./allDogDescriptions_simplified.csv");
+    System.out.printf("Loading ads from %s...\n", dataFileName);
+    adDatabase.loadADs(dataFileName);
+    System.out.println("Loading file is done.");
     
     // Prepare test data
     prepareCountData();
