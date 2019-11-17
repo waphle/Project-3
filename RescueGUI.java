@@ -94,7 +94,7 @@ public class RescueGUI extends Application {
     primaryStage.show();
   }
 
-  // Generate dummy random count data
+  // Generate the states' abbreviation name codes
   private void prepareStateNames() {
     String[] stateAbbNames = {
       "AL",
@@ -154,7 +154,7 @@ public class RescueGUI extends Application {
       }
   }
   
-  // Count matches in each of the states
+  // Generate dummy random count data
   private void prepareCountData() {
       Random random = new Random();
       for(int i = 0; i < Num_States; i++) {
