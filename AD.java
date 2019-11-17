@@ -6,16 +6,22 @@ public class AD {
    private boolean empty;
   
    // Constructors
+   public AD() {}
    public AD(int id, String state, byte[] text, boolean empty) {
       this.id = id;
       this.stateCode = state;
-      this.text = text;
+      this.text = text; 
       this.empty = empty;
    }
     
-   // Getters
+   // Getters and setters
    public int getID() { return this.id; }
    public String getStateCode() { return this.stateCode; }
    public byte[] getText() { return this.text; }
    public boolean getEmpty() { return this.empty; }
+   
+   public void setID(int id) { this.id = id; }
+   public void setStateCode(String code) { this.stateCode = code; }
+   public void setText(byte[] text) { this.text = text; }
+   public void setEmpty(boolean empty) { this.empty = empty; }
 }

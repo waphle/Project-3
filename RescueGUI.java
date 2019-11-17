@@ -15,59 +15,41 @@ import java.util.Map;
 
 public class RescueGUI extends Application {
 
-  // Frame layout geometric parameters
-  final int Scene_Width = 1000;
-  final int Scene_Hight = 600;
-  final int Side_Padding = 25;
-  
-  final int Pane_H_Gap = 15;
-  final int Pane_V_Gap = 15;
-  
-  final int Button_Width = 100;
-  
-  final int TextField_Width = 800;
-  final int TextField_Height = 40;
-  
-  // Search count data
-  final String[] stateAbbNames = {
-  final String[] stateAbbNames = {
-      "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", 
-      "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME",
-      "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", 
-      "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI",
-      "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI",
-      "WY" };
-  final int Num_States = 51;
-  int Counts[] = new int[Num_States];
-  String States[] = new String[Num_States];
+  ADRepos adDatabase = new ADRepos();
+  int Counts[] = new int[Constants.NUMBER_OF_STATES];
+  String States[] = new String[Constants.NUMBER_OF_STATES];
   public static HashMap<String, Integer> State_Count_Map = new HashMap<String, Integer>();
   
   @Override
-  public void start(Stage primaryStage) {
+  public void start(Stage primaryStage) throws Exception {
   
+    // Load the ad file
+    adDatabase.loadADs("./allDogDescriptions_simplified.csv");
+    
     // Prepare test data
     prepareCountData();
 
     // Layout the application GUI
     // Side offsets for outter pane in the scene
     FlowPane outterPane = new FlowPane();
-    outterPane.setPadding(new Insets(Side_Padding, Side_Padding, Side_Padding, Side_Padding));
-    outterPane.setHgap(Pane_H_Gap);
-    outterPane.setVgap(Pane_V_Gap);
+    outterPane.setPadding(new Insets(Constants.SCENE_SIDE_MARGIN, Constants.SCENE_SIDE_MARGIN, 
+                          Constants.SCENE_SIDE_MARGIN, Constants.SCENE_SIDE_MARGIN));
+    outterPane.setHgap(Constants.PANE_H_GAP);
+    outterPane.setVgap(Constants.PANE_V_GAP);
     
     // Search button
     StackPane btnPane = new StackPane();
     Button btnSearch = new Button("Search");
     btnSearch.setFont(Font.font("Arial", 18));
-    btnSearch.setPrefWidth(Button_Width);
+    btnSearch.setPrefWidth(Constants.BUTTON_WIDTH);
     btnPane.getChildren().add(btnSearch);
     
     // Search text field
     TextField srchText = new TextField();
     srchText.setPrefColumnCount(1);
     srchText.setPromptText("Enter a key word to search in the ads");
-    srchText.setPrefWidth(TextField_Width);
-    srchText.setPrefHeight(TextField_Height);
+    srchText.setPrefWidth(Constants.TEXTFIELD_WIDTH);
+    srchText.setPrefHeight(Constants.TEXTFIELD_HEIGHT);
     srchText.setFont(Font.font("Arial", 16));
     
     // Search result bar chart
@@ -79,14 +61,14 @@ public class RescueGUI extends Application {
     barChart.setLegendVisible(false);
     barChart.setCategoryGap(2);
     barChart.setBarGap(0);
-    barChart.setMinWidth(Scene_Width*0.90);
-    barChart.setMaxWidth(Scene_Width);
+    barChart.setMinWidth(Constants.SCENE_WIDTH*0.90);
+    barChart.setMaxWidth(Constants.SCENE_WIDTH);
     
     xAxis.setLabel("State");
     yAxis.setLabel("Match Count");
     
     XYChart.Series series = new XYChart.Series();
-    for (int i = 0; i < Num_States; i++) {
+    for (int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
        series.getData().add(new XYChart.Data(States[i], Counts[i]));
     }
 //     State_Count_Map.forEach((k, v) -> { series.getData().add(new XYChart.Data(k, v)); });
@@ -96,7 +78,7 @@ public class RescueGUI extends Application {
     outterPane.getChildren().addAll(barChart, srchText, btnPane);
     
     // Construct the scene
-    Scene scene = new Scene(outterPane, Scene_Width, Scene_Hight);
+    Scene scene = new Scene(outterPane, Constants.SCENE_WIDTH, Constants.SCENE_HEIGHT);
     
     // Stage
     primaryStage.setTitle("Rescue");
@@ -105,13 +87,17 @@ public class RescueGUI extends Application {
     primaryStage.show();
   }
 
+  public static void main(String[] args) {
+    Application.launch(args);
+  }
+
   // Generate dummy random count data
   private void prepareCountData() {
       Random random = new Random();
-      for(int i = 0; i < Num_States; i++) {
-         States[i] = stateAbbNames[i];
+      for(int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
+         States[i] = Constants.STATE_NAME_CODES[i];
          Counts[i] = random.nextInt(100);
-         State_Count_Map.put(stateAbbNames[i], Counts[i]);
+         State_Count_Map.put(Constants.STATE_NAME_CODES[i], Counts[i]);
       }
   }
 }
