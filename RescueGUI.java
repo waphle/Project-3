@@ -72,7 +72,7 @@ public class RescueGUI extends Application {
     
     // Initialize the bar chart with random data
     SearchResult result = new SearchResult();
-    result.set(testCountMap);
+//     result.set(testCountMap);
     updateBarChart(barChart, result);
 
     // Add event handler to the Search button
@@ -108,10 +108,6 @@ public class RescueGUI extends Application {
     primaryStage.setScene(scene);
     primaryStage.setResizable(false);
     primaryStage.show();
-  }
-
-  public static void main(String[] args) {
-    Application.launch(args);
   }
 
   // Generate dummy random count data
