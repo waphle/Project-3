@@ -70,9 +70,9 @@ public class RescueGUI extends Application {
     xAxis.setLabel("State");
     yAxis.setLabel("Match Count");
     
-    // Initialize the bar chart with random data
+    // Initialize the bar chart with empty or random data
     SearchResult result = new SearchResult();
-//     result.set(testCountMap);
+    result.set(testCountMap); // Uncomment this line to initialize the bar chart with random data
     updateBarChart(barChart, result);
 
     // Add event handler to the Search button
@@ -120,9 +120,10 @@ public class RescueGUI extends Application {
   
   // Update BarChart data with given result
   private void updateBarChart(BarChart<String, Number> bc, SearchResult result) {
+      bc.getData().clear();
       XYChart.Series series = new XYChart.Series();
       for (int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
-         String state = result.getsStateCodes().get(i);
+         String state = result.getStateCodes().get(i);
          int count = result.getMatchCounts().get(i);
          series.getData().add(new XYChart.Data(state, count));
       }

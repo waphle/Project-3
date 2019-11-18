@@ -31,7 +31,7 @@ public class SearchResult {
    
    // Getters and setters
    public HashMap<String, Integer> getStateCountMap() { return this.stateCountMap; }
-   public Vector<String> getsStateCodes() { return this.stateCodes; }
+   public Vector<String> getStateCodes() { return this.stateCodes; }
    public Vector<Integer> getMatchCounts() { return this.matchCounts; }
    public void setStateCountMap(HashMap<String, Integer> stateCountMap) { this.stateCountMap = stateCountMap; }
    public void setStateCodes(Vector<String> stateCodes) { this.stateCodes = stateCodes; }   

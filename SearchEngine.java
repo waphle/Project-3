@@ -20,56 +20,62 @@ public class SearchEngine {
       int keyLength = key.length();
       byte[] keyBytes = key.toLowerCase().trim().getBytes();      
       int numADs = this.adDatabase.getADRepos().size();
-      int numStates = result.getsStateCodes().size();
-      Vector<Integer> matchCounts = result.getMatchCounts();
+      int numStates = result.getStateCodes().size();
+      HashMap<String, Integer> matchCountMap = result.getStateCountMap();
       
       // Check result object's sanity
-      if (numStates != Constants.NUMBER_OF_STATES ||
-          numStates != matchCounts.size()) {
+      if (numStates != Constants.NUMBER_OF_STATES) {
           return false;
       }
       
-      for (int i = 0; i < numStates; i++) {
-         String state = result.getsStateCodes().get(i);
-         for (int j = 0; j < numADs; j++) {
-            AD ad = this.adDatabase.getADRepos().get(j);
-            
-            if (ad.getEmpty()) {
-               continue;
-            }
-            
-            // Do linear search for the time being. Will update it with a more
-            // efficient search method...
-            byte[] text = ad.getText();
-            int textLength = ad.getText().length;
-            boolean foundMatch = true;
-            for (int k = 0; k < textLength - keyLength; k++) {
-               // Check if the keyBytes match the current substring of bytes in the text
-               for (int n = 0; n < keyLength; n++) {
-                  if (keyBytes[n] != text[n]) {
-                     foundMatch = false;
-                     break;
-                  }
-               }
-               
-               if (!foundMatch) {
-                  continue;
-               }
-               else {
+      // Go through the whole ad database
+      for (int i = 0; i < numADs; i++) {
+         AD ad = this.adDatabase.getADRepos().get(i);
+         
+         // Skip ad with empty description   
+         if (ad.getEmpty()) {
+            continue;
+         }
+         
+         // Do linear search for the time being. Will update it with a more
+         // efficient search method...
+         String state = ad.getStateCode();
+         byte[] text = ad.getText();
+         int textLength = ad.getText().length;
+         
+         // Moving along the string of the text bytes...
+         boolean foundMatch = true; // Assume a match be found at first
+         for (int k = 0; k < textLength - keyLength; k++) {
+            // to check if the byte patter of the key matches the current substring of the same length in the text string
+            for (int n = 0; n < keyLength; n++) {
+               if (keyBytes[n] != text[n]) {
+                  foundMatch = false; // This breaks the asscumpption of the search finding a match
                   break;
                }
             }
             
-            if (foundMatch) {
-               int count = matchCounts.get(i);
-               count++;
-               matchCounts.set(i, count);
+            // If the current substring doesn't match the key, then move to the next substring by moving 
+            // the search pointer one byte to the right and check the match again...
+            if (!foundMatch) {
+               foundMatch = true;
+               continue;
             }
+            // If a match has really been found, then quit the search process
+            else {
+               break;
+            }
+         }
+         
+         // Update the match map with the current search result
+         if (foundMatch) {
+            int count = matchCountMap.get(state);
+            count++;
+            matchCountMap.replace(state, count);
          }
       }
       
-      // Output search result
-      result.setMatchCounts(matchCounts);
+      // Search is done here, so output the search result
+      result.set(matchCountMap);
       return true;
    }
 }
