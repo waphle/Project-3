@@ -72,7 +72,7 @@ public class RescueGUI extends Application {
     
     // Initialize the bar chart with empty or random data
     SearchResult result = new SearchResult();
-    result.set(testCountMap); // Uncomment this line to initialize the bar chart with random data
+//     result.set(testCountMap); // Uncomment this line to initialize the bar chart with random data
     updateBarChart(barChart, result);
 
     // Add event handler to the Search button
