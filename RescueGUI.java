@@ -12,25 +12,25 @@ import javafx.scene.chart.XYChart;
 import java.util.Random;
 import java.util.HashMap; 
 import java.util.Map; 
+import javafx.event.ActionEvent; 
+import javafx.event.EventHandler; 
 
 public class RescueGUI extends Application {
 
   ADRepos adDatabase = new ADRepos();
-  int Counts[] = new int[Constants.NUMBER_OF_STATES];
-  String States[] = new String[Constants.NUMBER_OF_STATES];
-  public static HashMap<String, Integer> State_Count_Map = new HashMap<String, Integer>();
+  public HashMap<String, Integer> testCountMap = new HashMap<String, Integer>();
   String dataFileName = "allDogDescriptions_simplified.csv";
   
   @Override
   public void start(Stage primaryStage) throws Exception {
   
-    // Load the ad file
+    // Load the ad file into the AD data structure
     System.out.printf("Loading ads from %s...\n", dataFileName);
     adDatabase.loadADs(dataFileName);
     System.out.println("Loading file is done.");
     
     // Prepare test data
-    prepareCountData();
+    generateDummyData();
 
     // Layout the application GUI
     // Side offsets for outter pane in the scene
@@ -70,13 +70,33 @@ public class RescueGUI extends Application {
     xAxis.setLabel("State");
     yAxis.setLabel("Match Count");
     
-    XYChart.Series series = new XYChart.Series();
-    for (int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
-       series.getData().add(new XYChart.Data(States[i], Counts[i]));
-    }
-//     State_Count_Map.forEach((k, v) -> { series.getData().add(new XYChart.Data(k, v)); });
-    barChart.getData().addAll(series);
+    // Initialize the bar chart with random data
+    SearchResult result = new SearchResult();
+    result.set(testCountMap);
+    updateBarChart(barChart, result);
 
+    // Add event handler to the Search button
+    EventHandler<ActionEvent> btnEvent = new EventHandler<ActionEvent>() { 
+       public void handle(ActionEvent e) {
+          // To make the search case insensive, change the key word to lower case
+          String keyWord = srchText.getText().toLowerCase();
+          
+          // Reset the text field to empty
+          srchText.setText("");
+          
+          // Search the key word throughout the ad database
+          SearchEngine searchEng = new SearchEngine(adDatabase);
+          SearchResult result = new SearchResult();
+          searchEng.find(keyWord, result);
+          
+          // Update the bar chart
+          updateBarChart(barChart, result);
+       } 
+    }; 
+    
+    // When button is pressed 
+    btnSearch.setOnAction(btnEvent); 
+    
     // Place nodes in the outter pane
     outterPane.getChildren().addAll(barChart, srchText, btnPane);
     
@@ -95,12 +115,21 @@ public class RescueGUI extends Application {
   }
 
   // Generate dummy random count data
-  private void prepareCountData() {
+  private void generateDummyData() {
       Random random = new Random();
       for(int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
-         States[i] = Constants.STATE_NAME_CODES[i];
-         Counts[i] = random.nextInt(100);
-         State_Count_Map.put(Constants.STATE_NAME_CODES[i], Counts[i]);
+         testCountMap.put(Constants.STATE_NAME_CODES[i], random.nextInt(100));
       }
+  }
+  
+  // Update BarChart data with given result
+  private void updateBarChart(BarChart<String, Number> bc, SearchResult result) {
+      XYChart.Series series = new XYChart.Series();
+      for (int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
+         String state = result.getsStateCodes().get(i);
+         int count = result.getMatchCounts().get(i);
+         series.getData().add(new XYChart.Data(state, count));
+      }
+      bc.getData().addAll(series);
   }
 }

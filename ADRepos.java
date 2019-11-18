@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.*;
+import java.util.ArrayList;
 
 public class ADRepos {
    // Atrributes
@@ -63,7 +63,7 @@ public class ADRepos {
             if (sText.charAt(0) == '\"')
                sText = sText.substring(1); // Remove the first '"' char in the description string
          }
-         text = sText.getBytes();
+         text = sText.toLowerCase().getBytes(); // To make the search case insensive
          ad.setText(text);
          
          // Get Empty
