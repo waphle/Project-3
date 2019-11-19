@@ -48,10 +48,19 @@ public class SearchEngine {
             // to check if the byte patten of the key matches the current substring of the same length in the text string
             boolean matched = true; // Assume a match be found at first
             for (int n = 0; n < keyLength; n++) {
-               if (keyBytes[n] != text[n]) {
+               if (keyBytes[n] != text[k+n]) {
                   matched = false; // This breaks the asscumpption of the search finding a match
                   break;
                }
+            }
+            
+            // If the immediatly successive byte is not one of the typical punctuation characters,
+            // the apparently 'match' should be rejected too:
+            if (text[k+keyLength] != (byte)'-' && text[k+keyLength] != (byte)' ' && 
+                text[k+keyLength] != (byte)':' && text[k+keyLength] != (byte)',' &&
+                text[k+keyLength] != (byte)'.' && text[k+keyLength] != (byte)'!' &&
+                text[k+keyLength] != (byte)'?' && text[k+keyLength] != (byte)';') {
+               matched = false;
             }
             
             // If the current substring doesn't match the key, then move to the next substring by shifting 
