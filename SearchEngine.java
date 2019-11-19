@@ -44,7 +44,6 @@ public class SearchEngine {
          int textLength = ad.getText().length;
          
          // Moving along the string of the text bytes...
-         boolean foundMatch = false;
          for (int k = 0; k < textLength - keyLength; k++) {
             // to check if the byte patten of the key matches the current substring of the same length in the text string
             boolean matched = true; // Assume a match be found at first
@@ -60,18 +59,12 @@ public class SearchEngine {
             if (!matched) {
                continue;
             }
-            // If a match has really been found, then quit the current search process
+            // If a match has really been found, update the match map,then continue searching in the same description text
             else {
-               foundMatch = true;
-               break;
+               int count = matchCountMap.get(state);
+               count++;
+               matchCountMap.replace(state, count);
             }
-         }
-         
-         // Update the match map with the current search result, then go to the next ad
-         if (foundMatch) {
-            int count = matchCountMap.get(state);
-            count++;
-            matchCountMap.replace(state, count);
          }
       }
       
